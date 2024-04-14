@@ -19,7 +19,7 @@ import {
 import { getRequireAuthSession } from "@/lib/auth";
 import Link from "next/link";
 import CoursesPagination from "../../../../src/features/pagination/CoursesPagination";
-import { getCourse } from "./admin-course.query";
+import { getAdminCourse } from "./admin-course.query";
 
 export default async function CoursePage({
   params,
@@ -34,7 +34,7 @@ export default async function CoursePage({
 
   const session = await getRequireAuthSession();
 
-  const course = await getCourse({
+  const course = await getAdminCourse({
     courseId: params.courseId,
     userId: session.user.id,
     userPage: page,

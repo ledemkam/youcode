@@ -1,9 +1,6 @@
 import prisma from "@/lib/prisma";
 
-// on recupere tous les cours qui st lies a cet utilisateur
-//de tell sorte que l'utilisateur ne peut acceder aux cours qu'il a cree
-
-export const getCourse = async ({
+export const getAdminCourse = async ({
   courseId,
   userId,
   userPage,
@@ -12,13 +9,14 @@ export const getCourse = async ({
   userId: string;
   userPage: number;
 }) => {
-  const courses = await prisma.course.findUnique({
+  const course = await prisma.course.findUnique({
     where: {
       creatorId: userId,
       id: courseId,
     },
     select: {
       id: true,
+      state: true,
       image: true,
       name: true,
       presentation: true,
@@ -46,14 +44,15 @@ export const getCourse = async ({
     },
   });
 
-  const users = courses?.users.map((user) => {
+  const users = course?.users.map((user) => {
     return {
-      cancel: user.canceledAt ? true : false,
+      canceled: user.canceledAt ? true : false,
       ...user.user,
     };
   });
+
   return {
-    ...courses,
+    ...course,
     users,
   };
 };

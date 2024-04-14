@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -9,19 +9,19 @@ import {
   FormLabel,
   FormMessage,
   useZodForm,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
-import { LESSON_STATE, LessonDetailSchema } from './lesson.schema';
-import { lessonActionEditDetails } from '../lesson.action';
+} from "@/components/ui/select";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { lessonActionEditDetails } from "../lesson.action";
+import { LESSON_STATE, LessonDetailSchema } from "./lesson.schema";
 
 export type LessonDetailFormProps = {
   defaultValue: LessonDetailSchema & {
@@ -52,7 +52,7 @@ export const LessonDetail = ({ defaultValue }: LessonDetailFormProps) => {
           return;
         }
 
-        toast.error('Some error occurred', {
+        toast.error("Some error occurred", {
           description: serverError,
         });
         return;
@@ -85,7 +85,7 @@ export const LessonDetail = ({ defaultValue }: LessonDetailFormProps) => {
               </FormControl>
               <SelectContent>
                 {LESSON_STATE.map((state) => (
-                  <SelectItem value={state} className="capitalize ">
+                  <SelectItem value={state} key={state} className="capitalize ">
                     {state}
                   </SelectItem>
                 ))}

@@ -1,14 +1,16 @@
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { AdminLessonItemType } from "./lessons.query";
+
 import { Button } from "@/components/ui/button";
 import { Typography } from "@/components/ui/Typography";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Menu } from "lucide-react";
-import Link from "next/link";
-import { AdminLessonItemType } from "./lessons.query";
 
 export type LessonItemProps = {
   lesson: AdminLessonItemType;
+  index: number;
 };
 
 export const AdminLessonItem = ({ lesson }: LessonItemProps) => {
@@ -22,7 +24,7 @@ export const AdminLessonItem = ({ lesson }: LessonItemProps) => {
   );
 };
 
-export function AdminLessonItemSortable({ lesson }: LessonItemProps) {
+export function AdminLessonItemSortable({ lesson, index }: LessonItemProps) {
   const {
     attributes,
     listeners,

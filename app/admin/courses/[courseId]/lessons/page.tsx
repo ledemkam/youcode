@@ -4,14 +4,14 @@ import {
   LayoutContent,
   LayoutHeader,
   LayoutTitle,
-} from '@/components/layout/layout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { getRequireAuthSession } from '@/lib/auth';
-import  prisma  from '@/lib/prisma';
-import { notFound, redirect } from 'next/navigation';
-import { getCourseLessons } from './lessons.query';
-import { SubmitButton } from '@/form/SubmitButton';
-import { AdminLessonItemSortable } from './AdminLessonItem';
+} from "@/components/layout/layout";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { SubmitButton } from "@/form/SubmitButton";
+import { getRequireAuthSession } from "@/lib/auth";
+import prisma from "@/lib/prisma";
+import { notFound, redirect } from "next/navigation";
+import { AdminLessonSortable } from "./AdminLessonSortable";
+import { getCourseLessons } from "./lessons.query";
 
 export default async function CourseLessonsPage({
   params,
@@ -42,13 +42,14 @@ export default async function CourseLessonsPage({
             <CardTitle>Lessons</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
+            <AdminLessonSortable items={course.lessons} />
             <form>
               <SubmitButton
                 size="sm"
                 variant="secondary"
                 className="w-full"
                 formAction={async () => {
-                  'use server';
+                  "use server";
 
                   const session = await getRequireAuthSession();
 
@@ -64,11 +65,11 @@ export default async function CourseLessonsPage({
 
                   const lesson = await prisma.lesson.create({
                     data: {
-                      name: 'Draft Lesson',
-                      rank: 'aaaaa',
-                      state: 'HIDDEN',
+                      name: "Draft Lesson",
+                      rank: "aaaaa",
+                      state: "HIDDEN",
                       courseId: courseId,
-                      content: '## Default content',
+                      content: "## Default content",
                     },
                   });
 
