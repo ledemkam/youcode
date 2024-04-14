@@ -1,5 +1,5 @@
-import { getAuthSession } from "./auth";
 import { createSafeActionClient } from "next-safe-action";
+import { getAuthSession } from "./auth";
 
 export const action = createSafeActionClient();
 

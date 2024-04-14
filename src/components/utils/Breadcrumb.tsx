@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { ChevronRight } from 'lucide-react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Fragment } from 'react';
-import { useIsClient } from '../../../hooks/useIsClient';
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Fragment } from "react";
+import { useIsClient } from "../../../hooks/useIsClient";
 
 export const Breadcrumb = () => {
   const _pathname = usePathname();
-  const pathname = _pathname?.split('/').filter(Boolean) ?? [];
+  const pathname = _pathname?.split("/").filter(Boolean) ?? [];
 
   const isClient = useIsClient();
 
@@ -22,6 +22,7 @@ export const Breadcrumb = () => {
       >
         {pathname.map((item, index) => (
           <BreadcrumbItem
+            key={index}
             item={item}
             index={index}
             pathname={pathname}
@@ -63,7 +64,7 @@ const BreadcrumbItem: React.FC<BreadcrumbItemProps> = ({
     <Fragment key={item}>
       <li>
         <Link
-          href={`/${pathname.slice(0, index + 1).join('/')}`}
+          href={`/${pathname.slice(0, index + 1).join("/")}`}
           className="block text-xs text-muted-foreground transition hover:text-foreground"
         >
           {isPrismaId(item) ? formatId(item) : item}

@@ -1,14 +1,11 @@
-import { Badge } from '@/components/ui/badge';
-import Link from 'next/link';
-import { AdminLessonItemType } from './lessons.query';
-import {CSS} from '@dnd-kit/utilities';
-import { Button } from '@/components/ui/button';
-import { useSortable } from '@dnd-kit/sortable';
-import { Menu } from 'lucide-react';
-import { Typography } from '@/components/ui/Typography';
-
-import {useSortable} from '@dnd-kit/sortable';
-import {CSS} from '@dnd-kit/utilities';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Typography } from "@/components/ui/Typography";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { Menu } from "lucide-react";
+import Link from "next/link";
+import { AdminLessonItemType } from "./lessons.query";
 
 export type LessonItemProps = {
   lesson: AdminLessonItemType;
@@ -25,11 +22,17 @@ export const AdminLessonItem = ({ lesson }: LessonItemProps) => {
   );
 };
 
-export function AdminLessonItemSortable({ lesson}: LessonItemProps) {
-  const { attributes, listeners, setNodeRef, transform, transition, activeIndex } =
-    useSortable({
-      id: lesson.id,
-    });
+export function AdminLessonItemSortable({ lesson }: LessonItemProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    activeIndex,
+  } = useSortable({
+    id: lesson.id,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -49,7 +52,12 @@ export function AdminLessonItemSortable({ lesson}: LessonItemProps) {
               e.preventDefault();
             }}
           >
-            <Button size="sm" variant="ghost" className="cursor-move" {...listeners}>
+            <Button
+              size="sm"
+              variant="ghost"
+              className="cursor-move"
+              {...listeners}
+            >
               <Menu size={16} />
             </Button>
           </div>
@@ -57,10 +65,4 @@ export function AdminLessonItemSortable({ lesson}: LessonItemProps) {
       </div>
     </Link>
   );
-
 }
-
-
-
-
-
