@@ -1,9 +1,9 @@
-'use server';
+"use server";
 
-import { ServerError, authenticatedAction } from '@/lib/action';
-import { getTheMiddleRank } from '@/lib/getTheMiddleRank';
-import  prisma  from '@/lib/prisma';
-import { z } from 'zod';
+import { authenticatedAction } from "@/lib/action";
+import { getTheMiddleRank } from "@/lib/getTheMiddleRank";
+import prisma from "@/lib/prisma";
+import { z } from "zod";
 
 const SaveLessonMoveSchema = z.object({
   upItemRank: z.string().optional(),
@@ -26,7 +26,7 @@ export const saveLessonMove = authenticatedAction(
     });
 
     if (!course) {
-      throw new ServerError("This course doesn't exist");
+      throw new Error("This course doesn't exist");
     }
 
     const lesson = await prisma.lesson.findFirst({
@@ -37,7 +37,7 @@ export const saveLessonMove = authenticatedAction(
     });
 
     if (!lesson) {
-      throw new ServerError("This lesson doesn't exist");
+      throw new Error("This lesson doesn't exist");
     }
 
     const newRank = getTheMiddleRank(data.upItemRank, data.downItemRank);

@@ -1,22 +1,25 @@
-import { createSafeActionClient } from "next-safe-action";
+import { createSafeActionClient, DEFAULT_SERVER_ERROR } from "next-safe-action";
 import { getAuthSession } from "./auth";
 
-export const action = createSafeActionClient();
+export class ActionError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ActionError";
+  }
+}
 
-export class ServerError extends Error {}
+// This function will be called when our actions throw an error.
+const handleServerError = (error: unknown) => {
+  if (error instanceof ActionError) {
+    return {
+      serverError: error.message,
+    };
+  }
+
+  return DEFAULT_SERVER_ERROR;
+};
 
 export const authenticatedAction = createSafeActionClient({
-  handleReturnedServerError: (error) => {
-    if (error instanceof ServerError) {
-      return {
-        serverError: error.message,
-      };
-    }
-
-    return {
-      serverError: "An unexpected error occurred",
-    };
-  },
   middleware: async () => {
     const session = await getAuthSession();
 
@@ -24,12 +27,13 @@ export const authenticatedAction = createSafeActionClient({
     const userId = user?.id;
 
     if (!userId) {
-      throw new ServerError("You must be logged in to perform this action");
+      throw new Error("You must be logged in to perform this action");
     }
 
     return {
       userId,
       user,
     };
+    handleReturnedServerError: handleServerError;
   },
 });
