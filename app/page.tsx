@@ -90,15 +90,6 @@ export default async function Home() {
             </div>
           </div>
         </div>
-        <div>
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube-nocookie.com/embed/HvgVzQPAoNg"
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          ></iframe>
-        </div>
       </div>
       {/* VALUES */}
       <div className="bg-primary py-8 text-primary-foreground xl:py-16">
