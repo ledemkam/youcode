@@ -1,13 +1,16 @@
-import { Alert, AlertTitle } from '@/components/ui/alert';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertTriangle } from 'lucide-react';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-import { CourseType } from './course.query';
-import { Typography } from '@/components/ui/Typography';
-import { MarkdownProse } from '@/features/mdx/MarkdownProse';
-import { LessonItem } from './LessonItem';
+import { Alert, AlertTitle } from "@/components/ui/alert";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Typography } from "@/components/ui/Typography";
+import { MarkdownProse } from "@/features/mdx/MarkdownProse";
+import { SubmitButton } from "@/form/SubmitButton";
+import { getRequireAuthSession } from "@/lib/auth";
+import prisma from "@/lib/prisma";
+import { AlertTriangle } from "lucide-react";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { CourseType } from "./course.query";
+import { LessonItem } from "./LessonItem";
 
 export type CourseProps = {
   course: CourseType;
@@ -51,7 +54,7 @@ export const Course = ({ course, userId }: CourseProps) => {
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
             {course.lessons.map((lesson) => (
-               <LessonItem lesson={lesson} key={lesson.id} />
+              <LessonItem lesson={lesson} key={lesson.id} />
             ))}
             {course.lessons.length === 0 ? (
               <Alert>
@@ -64,10 +67,63 @@ export const Course = ({ course, userId }: CourseProps) => {
           </CardContent>
         </Card>
       </div>
-      {course.isCanceled ? <p>You can&apost join this course.</p> : null}
+      {course.isCanceled ? <p>You cannot join this course.</p> : null}
       {!course.isCanceled && !course.isEnrolled && isLogin ? (
         <div>
- 
+          <form>
+            <SubmitButton
+              formAction={async () => {
+                "use server";
+
+                const session = await getRequireAuthSession();
+
+                const toLinkCourse = await prisma.course.findUnique({
+                  where: {
+                    id: course.id,
+                    state: "PUBLISHED",
+                  },
+                  select: {
+                    id: true,
+                    lessons: {
+                      orderBy: {
+                        rank: "asc",
+                      },
+                      take: 1,
+                      select: {
+                        id: true,
+                      },
+                    },
+                  },
+                });
+
+                if (!toLinkCourse) {
+                  return;
+                }
+
+                await prisma.courseOnUser.create({
+                  data: {
+                    userId: session.user.id,
+                    courseId: course.id,
+                  },
+                  select: {
+                    id: true,
+                  },
+                });
+
+                const lesson = toLinkCourse.lessons[0];
+
+                revalidatePath(`/courses/${course.id}`);
+
+                if (!lesson) {
+                  return;
+                }
+
+                redirect(`/courses/${course.id}/lessons/${lesson.id}`);
+              }}
+            >
+              Join
+            </SubmitButton>
+          </form>
         </div>
       ) : null}
     </div>

@@ -1,8 +1,8 @@
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-//import { Loader } from '@/components/ui/loader';
-import { Skeleton } from '@/components/ui/skeleton';
-//import { LessonItemPlaceholder } from './lessons/LessonItemPlaceholder';
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Loader from "@/components/ui/loader";
+import { Skeleton } from "@/components/ui/skeleton";
+import { LessonItemPlaceholder } from "./lessons/LessonItemPlaceholder";
 
 export const CoursePlaceholder = () => {
   return (
@@ -12,7 +12,7 @@ export const CoursePlaceholder = () => {
           <CardHeader className="flex flex-row gap-3 space-y-0">
             <Avatar className="h-14 w-14 rounded">
               <AvatarFallback>
-                {/* <Loader size={24} /> */}
+                <Loader size={24} />
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col gap-3">
@@ -20,7 +20,7 @@ export const CoursePlaceholder = () => {
               <div className="flex flex-row gap-2">
                 <Avatar className="h-8 w-8">
                   <AvatarFallback>
-                    {/* <Loader size={16} /> */}
+                    <Loader size={16} />
                   </AvatarFallback>
                 </Avatar>
                 <Skeleton className="h-9 w-20" />
@@ -39,9 +39,9 @@ export const CoursePlaceholder = () => {
             <CardTitle>Lessons</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
-            {/* {Array.from({ length: 5 }).map((_, i) => (
+            {Array.from({ length: 5 }).map((_, i) => (
               <LessonItemPlaceholder key={i} />
-            ))} */}
+            ))}
           </CardContent>
         </Card>
       </div>
