@@ -111,11 +111,11 @@ export default async function Home() {
           </div>
           <div className="flex flex-1 flex-col items-center gap-2 text-center">
             <Rocket size={32} />
-            <Typography variant="h3">NextReact project</Typography>
+            <Typography variant="h3">Next-React project</Typography>
             <Typography variant="large">
               Re-build this app from scratch in{" "}
               <Link
-                href="https://codelynx.dev/nextreact/courses"
+                href="https://github.com/ledemkam/youcode"
                 className="underline"
               >
                 NextReact
