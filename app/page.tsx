@@ -113,12 +113,12 @@ export default async function Home() {
             <Rocket size={32} />
             <Typography variant="h3">Next-React project</Typography>
             <Typography variant="large">
-              Re-build this app from scratch in{" "}
+              you can this app in{" "}
               <Link
                 href="https://github.com/ledemkam/youcode"
                 className="underline"
               >
-                NextReact
+                my GitHub profil
               </Link>
             </Typography>
           </div>
